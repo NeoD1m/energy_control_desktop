@@ -25,7 +25,6 @@ class _LogsPageState extends State<LogsPage> {
     final url = Uri.parse('$apiUrl/logs');
     User? user = await getUser();
     final body = jsonEncode({
-      // todo
       "adminLogin": user?.login,
       "adminPassword": user?.password
     });
