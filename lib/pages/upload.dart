@@ -4,8 +4,12 @@ import 'package:http/http.dart' as http;
 import 'package:desktop_drop/desktop_drop.dart';
 
 import '../main.dart';
+import '../models/user.dart';
+import '../utils/auth.dart';
 
 class UploadPage extends StatefulWidget {
+  const UploadPage({super.key});
+
   @override
   _UploadPageState createState() => _UploadPageState();
 }
@@ -22,7 +26,7 @@ class _UploadPageState extends State<UploadPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Загрузка документа'),
+        title: const Text('Загрузка документа'),
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
@@ -30,16 +34,16 @@ class _UploadPageState extends State<UploadPage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
-              decoration: InputDecoration(labelText: 'Название документа', labelStyle: TextStyle(fontSize: 25),),
+              decoration: const InputDecoration(labelText: 'Название документа', labelStyle: TextStyle(fontSize: 25),),
               onChanged: (value) {
                 setState(() {
                   fileTitle = value;
                 });
               },
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             DropdownButton<String>(
-              hint: Text('Выберите тип документа',style: TextStyle(fontSize: 25),),
+              hint: const Text('Выберите тип документа',style: TextStyle(fontSize: 25),),
               value: fileType,
               onChanged: (value) {
                 setState(() {
@@ -53,7 +57,7 @@ class _UploadPageState extends State<UploadPage> {
                 );
               }).toList(),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             DropTarget(
               onDragDone: (details) async {
                 if (details.files.isNotEmpty) {
@@ -73,19 +77,19 @@ class _UploadPageState extends State<UploadPage> {
                 child: Center(
                   child: Text(
                     fileName ?? 'Перетащите ваш файл сюда',
-                    style: TextStyle(fontSize: 25),
+                    style: const TextStyle(fontSize: 25),
                   ),
                 ),
               ),
             ),
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 if (uploadedFile != null && fileType != null && fileTitle.isNotEmpty) {
                   _uploadFile();
                 } else {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Заполните все поля')),
+                    const SnackBar(content: Text('Заполните все поля')),
                   );
                 }
               },
@@ -96,7 +100,7 @@ class _UploadPageState extends State<UploadPage> {
                   borderRadius: BorderRadius.all(Radius.circular(8)),
                 ),
               ),
-              child: Text('Загрузить',style: TextStyle(fontSize: 25),),
+              child: const Text('Загрузить',style: TextStyle(fontSize: 25),),
             ),
           ],
         ),
@@ -107,10 +111,9 @@ class _UploadPageState extends State<UploadPage> {
   Future<void> _uploadFile() async {
     var uri = Uri.parse('$apiUrl/files/upload');
     var request = http.MultipartRequest('POST', uri);
-
-    // TODO: Fill in admin login and password
-    request.fields['adminLogin'] = 'admin';
-    request.fields['adminPassword'] = 'admin';
+    User? user = await getUser();
+    request.fields['adminLogin'] = user!.login;
+    request.fields['adminPassword'] = user.password;
     request.fields['title'] = fileTitle;
     request.fields['type'] = fileType!;
 
@@ -119,16 +122,12 @@ class _UploadPageState extends State<UploadPage> {
       uploadedFile!,
       filename: fileName,
     ));
-
     request.headers['Content-Type'] = 'multipart/form-data';
-
     var response = await request.send();
-
     if (response.statusCode == 200) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Файл загружен удачно')),
+        const SnackBar(content: Text('Файл загружен удачно')),
       );
-      // Clear fields after successful upload
       setState(() {
         uploadedFile = null;
         fileName = null;
@@ -137,7 +136,7 @@ class _UploadPageState extends State<UploadPage> {
       });
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Ошибка загрузки')),
+        const SnackBar(content: Text('Ошибка загрузки')),
       );
     }
   }

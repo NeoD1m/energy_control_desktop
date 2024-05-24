@@ -1,12 +1,17 @@
 import 'dart:convert';
+import 'package:energy_control_desktop/main.dart';
+import 'package:energy_control_desktop/utils/auth.dart';
 import 'package:http/http.dart' as http;
 
-Future<void> deleteFile(int fileId) async {
-  final url = Uri.parse('http://neodim.fun/files');
+import '../models/user.dart';
 
+Future<void> deleteFile(int fileId) async {
+  final url = Uri.parse('$apiUrl/files');
+
+  User? user = await getUser();
   final payload = {
-    "adminLogin": "admin",
-    "adminPassword": "admin",
+    "adminLogin": user!.login,
+    "adminPassword": user.login,
     "fileId": fileId,
   };
   final response = await http.delete(

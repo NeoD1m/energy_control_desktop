@@ -58,12 +58,12 @@ class _LogsPageState extends State<LogsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Логи'),
+        title: const Text('Логи'),
       ),
       body: _isLoading
-          ? Center(child: CircularProgressIndicator())
+          ? const Center(child: CircularProgressIndicator())
           : _logs.isEmpty
-          ? Center(child: Text('No logs available'))
+          ? const Center(child: Text('No logs available'))
           : ListView.builder(
         itemCount: _logs.length,
         itemBuilder: (context, index) {

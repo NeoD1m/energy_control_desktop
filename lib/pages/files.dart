@@ -25,7 +25,7 @@ class _AllFilesPageState extends State<AllFilesPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Все документы'),
+        title: const Text('Все документы'),
       ),
       body: FutureBuilder<List<dynamic>>(
         future: fetchFiles(),
@@ -35,7 +35,7 @@ class _AllFilesPageState extends State<AllFilesPage> {
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text('No files found'));
+            return const Center(child: Text('No files found'));
           } else {
             final files = snapshot.data!;
             return ListView.separated(
