@@ -12,14 +12,22 @@ dependencies:
   cupertino_icons: ^1.0.2
   http: ^1.2.0
   shared_preferences: ^2.0.15
-  file_picker:
+  file_picker: ^8.0.0+1
   desktop_drop:
   flutter_launcher_icons:
+  window_manager: ^0.3.9
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0
+
+flutter_launcher_icons:
+  image_path: "assets/icon/icon.png"
+  windows:
+    generate: true
+    image_path: "assets/icon/icon.png"
+    icon_size: 48
 
 flutter:
   uses-material-design: true

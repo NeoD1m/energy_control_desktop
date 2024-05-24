@@ -4,10 +4,14 @@ import 'package:energy_control_desktop/pages/logs.dart';
 import 'package:energy_control_desktop/pages/upload.dart';
 import 'package:energy_control_desktop/utils/auth.dart';
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 
 const String apiUrl = "http://neodim.fun";
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await windowManager.ensureInitialized();
+  windowManager.setTitle('ЭнергоКонтрольАдмин');
   runApp(MyApp());
 }
 
