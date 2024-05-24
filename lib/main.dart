@@ -6,7 +6,7 @@ import 'package:energy_control_desktop/utils/auth.dart';
 import 'package:flutter/material.dart';
 import 'package:window_manager/window_manager.dart';
 
-const String apiUrl = "http://neodim.fun";
+const String apiUrl = "http://energy-control.online";
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
